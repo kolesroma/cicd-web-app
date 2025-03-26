@@ -50,11 +50,8 @@ jobs:
         echo "${{ env.EC2_IP }}"
         
         echo "Waiting for EC2 instance to become reachable..."
-        for i in {1..10}; do
-          nc -zv ${{ env.EC2_IP }} 22 && break
-          echo "SSH not ready yet. Retrying in 10 seconds..."
-          sleep 10
-        done
+        sleep 100
+        echo "End waiting for EC2 instance to become reachable..."
         
         ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ env.EC2_IP }} << 'EOF'
         sudo apt-get update -y
