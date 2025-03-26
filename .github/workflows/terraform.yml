@@ -44,10 +44,8 @@ jobs:
         echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
         chmod 600 private_key.pem
 	
-    - name: Sleep for 30 seconds
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '30s'
+    - name: Wait for 1 minute
+      run: sleep 60
 	
     - name: Deploy to EC2
       run: |
