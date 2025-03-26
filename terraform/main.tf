@@ -35,6 +35,28 @@ resource "aws_instance" "Ec2MainApplication" {
   instance_type = "t2.micro"
   key_name      = "ec2admin"
   security_groups = [aws_security_group.Ec2SecurityGroup.name]
+  user_data = << EOF
+
+	sudo apt-get update -y
+        sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+        sudo apt-get update -y
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y docker-ce docker-ce-cli containerd.io
+
+        sudo usermod -aG docker ubuntu
+        sudo systemctl enable docker
+        sudo systemctl start docker
+
+        git clone https://github.com/kolesroma/cicd-web-app
+        cd cicd-web-app/
+
+        sudo docker build -t my-app .
+        sudo docker run -d -p 80:80 --name my-running-app my-app
+        
+  EOF
   
   tags = {
     Name = "Ec2MainApplication"
