@@ -45,8 +45,9 @@ jobs:
         chmod 600 private_key.pem
 	
     - name: Sleep for 30 seconds
-      run: sleep 30s
-      shell: bash
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '30s'
 	
     - name: Deploy to EC2
       run: |
