@@ -58,6 +58,7 @@ jobs:
 
     - name: Deploy to EC2
       run: |
+        echo "ec2_ip=$ec2_ip"
         ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@$ec2_ip << 'EOF'
         sudo apt-get update -y
         sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
